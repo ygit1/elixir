@@ -1,0 +1,24 @@
+# lib/chat_app_web/controllers/page_html/home.html.heex
+<div class="container mx-auto px-4 py-8">
+  <h1 class="text-2xl font-bold mb-4">Phoenix チャット</h1>
+  
+  <div id="chat" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+    <div id="messages" class="h-64 overflow-y-auto border p-4 mb-4"></div>
+    
+    <div class="flex items-center mb-4">
+      <input type="text" id="username-input" value={@user_id} class="shadow appearance-none border rounded py-2 px-3 mr-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="ユーザー名">
+      <button id="set-username" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+        名前を設定
+      </button>
+    </div>
+    
+    <div class="flex">
+      <input type="text" id="message-input" class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline flex-grow mr-2" placeholder="メッセージを入力...">
+      <button id="send-button" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+        送信
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>window.userToken = "<%= @user_id %>";</script>
