@@ -22,3 +22,8 @@ config :phoenix, :plug_init_mode, :runtime
 # Enable helpful, but potentially expensive runtime checks
 config :phoenix_live_view,
   enable_expensive_runtime_checks: true
+
+config :chat_app, ChatApp.Repo,
+  database: Path.expand("../chat_app_test.db", Path.dirname(__ENV__.file)),
+  pool_size: 5,
+  adapter: Ecto.Adapters.SQLite3

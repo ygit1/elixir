@@ -73,3 +73,8 @@ config :phoenix_live_view,
 
 # Disable swoosh api client as it is only required for production adapters.
 config :swoosh, :api_client, false
+
+config :chat_app, ChatApp.Repo,
+  database: Path.expand("../chat_app_dev.db", Path.dirname(__ENV__.file)),
+  pool_size: 5,
+  adapter: Ecto.Adapters.SQLite3

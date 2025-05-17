@@ -19,5 +19,14 @@ defmodule ChatAppWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
+    get "/login", AuthController, :login_page
+    get "/register", AuthController, :register_page
+  end
+
+  scope "/auth", ChatAppWeb do
+    pipe_through :browser
+
+    get "/:provider", AuthController, :request
+    get "/:provider/callback", AuthController, :google_callback
   end
 end

@@ -8,18 +8,33 @@
 import Config
 
 config :chat_app,
-  generators: [timestamp_type: :utc_datetime]
+  generators: [timestamp_type: :utc_datetime],
+  ecto_repos: [ChatApp.Repo]
 
 # Configures the endpoint
 config :chat_app, ChatAppWeb.Endpoint,
   url: [host: "localhost"],
-  adapter: Bandit.PhoenixAdapter,
   render_errors: [
     formats: [html: ChatAppWeb.ErrorHTML, json: ChatAppWeb.ErrorJSON],
     layout: false
   ],
   pubsub_server: ChatApp.PubSub,
-  live_view: [signing_salt: "ykBIE/MC"]
+  live_view: [signing_salt: "ykBIE/MC"],
+  http: [ip: {127, 0, 0, 1}, port: 4000],
+  check_origin: false,
+  code_reloader: true,
+  debug_errors: true,
+  watchers: [
+    esbuild: {Esbuild, :install_and_run, [:chat_app, ["--sourcemap=inline", "--watch"]]},
+    tailwind: {Tailwind, :install_and_run, [:chat_app, ["--watch"]]}
+  ],
+  live_reload: [
+    patterns: [
+      ~r"priv/static/(?!uploads/).*(js|css|png|jpeg|jpg|gif|svg)$",
+      ~r"priv/gettext/.*(po)$",
+      ~r"lib/chat_app_web/(controllers|live|components)/.*(ex|heex)$"
+    ]
+  ]
 
 # Configures the mailer
 #
@@ -63,3 +78,12 @@ config :phoenix, :json_library, Jason
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{config_env()}.exs"
+
+config :ueberauth, Ueberauth,
+  providers: [
+    google: {Ueberauth.Strategy.Google, [default_scope: "email profile"]}
+  ]
+
+config :ueberauth, Ueberauth.Strategy.Google.OAuth,
+  client_id: System.get_env("GOOGLE_CLIENT_ID"),
+  client_secret: System.get_env("GOOGLE_CLIENT_SECRET")
